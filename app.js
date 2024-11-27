@@ -1,6 +1,9 @@
-require('dotenv').config();
+
 const express = require('express');
-const cors = require('cors');
+const cors = require('cors')
+const connectDB = require('./config/db.js');
+const SanPhamRouter = require('./routes/sanphamRouter.js');
+
 
 const app = express();
 const PORT = process.env.PORT || 3000;
@@ -9,6 +12,11 @@ const PORT = process.env.PORT || 3000;
 app.use(cors());
 app.use(express.json());
 
+
+connectDB();
+
+
+app.use("/api/sanpham", SanPhamRouter)
 
 app.get('/', (req, res) => {
     res.send('Welcome to my Node.js backend project');
