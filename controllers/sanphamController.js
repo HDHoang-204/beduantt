@@ -25,21 +25,21 @@ const addSanPham = async (req, res) => {
 
 // xóa
 const deleteSanPham = async (req, res) => {
-
+    const { id } = req.params;  // Lấy ID từ params
 
     try {
-        const sp = await sanPhamModel.findById(req.body.id)
-
-
-        await sanPhamModel.findByIdAndDelete(req.body.id); // Xóa sản phẩm theo ID
+        const sp = await sanPhamModel.findById(id);  // Tìm sản phẩm theo ID
 
         if (!sp) {
             return res.json({ success: false, message: "Sản phẩm không tồn tại" });
         }
 
+        // Xóa sản phẩm
+        await sanPhamModel.findByIdAndDelete(id);
+
         // Nếu có ảnh liên quan, bạn có thể xóa ảnh khỏi thư mục uploads
         if (sp.image) {
-            fs.unlinkSync(`uploads/${sp.image}`); // Xóa file ảnh
+            fs.unlinkSync(`uploads/${sp.image}`);  // Xóa file ảnh
         }
 
         res.json({ success: true, message: "Xóa thành công" });

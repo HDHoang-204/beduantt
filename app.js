@@ -1,25 +1,27 @@
-
-const express = require('express');
-const cors = require('cors')
-const connectDB = require('./config/db.js');
-const SanPhamRouter = require('./routes/sanphamRouter.js');
-
-
+const express = require("express");
+const cors = require("cors");
+const connectDB = require("./config/db.js");
+const SanPhamRouter = require("./routes/sanphamRouter.js");
+const userRouter = require("./routes/userRouter.js");
+const dotennv = require("dotenv/config")
 const app = express();
 const PORT = process.env.PORT || 3000;
 
-// Middleware
+
+
 app.use(cors());
 app.use(express.json());
 
 
 connectDB();
 
+// Routes
+app.use("/api/sanpham", SanPhamRouter);
+app.use("/api/user", userRouter)
 
-app.use("/api/sanpham", SanPhamRouter)
-
-app.get('/', (req, res) => {
-    res.send('Welcome to my Node.js backend project');
+// Route gốc
+app.get("/", (req, res) => {
+    res.send("Welcome to my Node.js backend project");
 });
 
 // Start the server
